@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <title>A-Frame Sharedspace Component</title>
+  <script src="js/aframe.min.js"></script>
+  <script src="js/aframe-sharedspace-component.min.js"></script>
+  <script src="js/aframe-environment-component.min.js"></script>
+  <script src="js/aframe-animation-component.min.js"></script>
+  <script src="js/aframe-look-at-component.min.js"></script>
+  <script>
+    AFRAME.registerComponent('name', {
+      schema: { default: '' },
+      
+      update: function () {
+        this.el.querySelector('.label').setAttribute('text', { value: this.data });
+      }
+    });
+  </script>
+  <link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+  <a class="hide" href="#">Hide</a>
+  <section class="instructions">
+    <h1>Happy gamerun room</h1>
+    <p>
+      You enter first. Grant the site permission to access your microphone and share the link with the honoree. Ensure they share their mic too. Now ask more friends to join. The <em>unbirthday folk</em> can now press spacebar to blow the candle up!
+    </p>
+    <span class="link"></span>
+    <a class="move" href="./">Move to another room.</a>
+  </section>
+  <a-scene embedded>
+    <a-assets>
+      <a-mixin id="me" visible="false" look-controls name share="rotation,name"></a-mixin>
+    </a-assets>
+    <a-entity sharedspace="audio: true; hold: true provider: http://localhost:10080" avatars="onmyself: me">
+
+      <!-- Room -->
+      <a-entity environment="preset: osiris"></a-entity>
+      <a-entity id="floor" geometry="width:4;height:0.2;depth:8" material="roughness:1"></a-entity>
+      <a-entity position="2 1.5 0" id="wall-1" geometry="width:0.2;height:3;depth:8" material="roughness:1"></a-entity>
+      <a-entity position="0 1.5 -4" id="wall-2" geometry="width:4;depth:0.2;height:3" material="roughness:1"></a-entity>
+      <a-entity position="0 1.5 4" id="cristal-1" geometry="depth:0.2;height:3;width:4" material="roughness:0;opacity:0.4"></a-entity>
+      <a-entity position="-2 1.5 0" id="cristal-2" geometry="depth:8;width:0.2;height:3" material="opacity:0.4;roughness:0"></a-entity>
+      <a-entity position="0 3 0" id="ceil" geometry="depth:8;height:0.2;width:4" material="roughness:1"></a-entity>
+      <a-entity visible="false" class="lamp" position="0 2.544 0" light="intensity:0.5;distance:8;type:point"></a-entity>
+      <a-entity visible="false" class="lamp" position="0 2.544 -2.016" light="distance:8;intensity:0.5;type:point"></a-entity>
+      <a-entity visible="false" class="lamp" position="0 2.544 2.029" light="distance:8;intensity:0.5;type:point"></a-entity>
+      <a-entity position="1.597 2.304 0" rotation="15.068790011940651 270 0" geometry="primitive:plane;width:5" material="color:#ff20b8" text="wrapCount:20;align:center;value:HAPPY GAMERUN DAY!"></a-entity>
+
+
+      <!-- Table -->
+      <a-cylinder class="table" position="0 0.8 0" height="0.02" color="#8ae0f4" segments-height="1" segments-radial="6">
+        <a-entity class="cake" position="0 0.01 0">
+          <a-cylinder class="dish" position="0 0.0025 0" height="0.005" radius="0.16" segments-height="1" segments-radial="12" material="shader: flat; color: #e5e3f0"></a-cylinder>
+          <a-cylinder class="cream" position="0 0.0525 0" height="0.1" radius="0.15" segments-height="1" segments-radial="16" material="roughness:1; side:double; color:#fffde8"></a-cylinder>
+          <a-cylinder class="chocolate" position="0 0.130 0" height="0.05" radius="0.08" segments-height="1" segments-radial="10" material="roughness:1; side:double; color:#773909"></a-cylinder>
+          <a-cylinder class="candle" position="0 0.185 0" height="0.06" radius="0.005" segments-height="1" segments-radial="3" material="color:#ffffff;shader:flat">
+            <a-sphere class="flame" position="0 0.04 0" radius="0.01" segments-height="2" segments-width="2" material="shader:gradientshader;topColor: #ff6400; bottomColor: #000000;">
+              <a-entity class="flame-light" position="0 0.5 0" light="penumbra:0.5;color:#e94800;angle:20;type:spot;decay:0;groundColor:#f3ffe2" rotation="-90.012 0 0" animation="from:0.2;easing:linear;loop:true;property:light.penumbra;to:1.0;dir:alternate"></a-entity>
+              <a-plane position="0 0.18 0" rotation="0 270 0" material="color:#000000;shader:flat" geometry="height:0.25" text="wrapCount:20;align:center;value:Press spacebar to blow the candle out!"></a-plane>
+            </a-sphere>
+          </a-cylinder>
+        </a-entity>
+      </a-cylinder>
+
+    </a-entity>
+  </a-scene>
+  <template>
+    <a-entity>
+      <a-entity geometry="radius:0.1;primitive:sphere" material=""></a-entity>
+      <a-entity position="0.05 0.03 -0.08" geometry="segmentsWidth:8;segmentsHeight:8;radius:0.02;primitive:sphere" material="color:#000000"></a-entity>
+      <a-entity position="-0.05 0.03 -0.08" geometry="segmentsWidth:8;segmentsHeight:8;primitive:sphere;radius:0.02" material="color:#000000"></a-entity>
+      <a-entity class="themable" position="0 0.15 0" geometry="segmentsRadial:8;segmentsHeight:1;height:0.15;radiusBottom:0.05;radiusTop:0;primitive:cone" material="color:#1cff3c"></a-entity>
+      <a-entity class="themable label" position="-0.001 0.091 -0.069" rotation="0 180 0" geometry="width:0.15;height:0.04;primitive:plane" material="color:#00ff4d" text="wrapCount:10;color:#000000;align:center"></a-entity>
+      <a-entity class="themable" position="0 -0.07 -0.1" scale="1 1 0.5" geometry="segmentsWidth:4;segmentsHeight:4;radius:0.02;primitive:sphere" material="color:#11fd3e"></a-entity>
+      <a-entity class="themable" position="0.03 -0.07 -0.1" rotation="0 0 90" scale="1 1 0.5" geometry="segmentsRadial:8;segmentsHeight:1;height:0.03;radiusBottom:0.03;primitive:cone" material="color:#1cff3c"></a-entity>
+      <a-entity class="themable" position="-0.03 -0.07 -0.1" rotation="0 0 -90" scale="1 1 0.5" geometry="segmentsRadial:8;segmentsHeight:1;height:0.03;radiusBottom:0.03;primitive:cone" material="color:#1cff3c"></a-entity>
+    </a-entity>
+  </template>
+  <script>
+    var name = prompt('Enter your name');
+    
+    var hideButton = document.querySelector('.hide');
+    var instructions = document.querySelector('.instructions');
+    hideButton.onclick = function (evt) {
+      instructions.classList.toggle('hidden');
+      this.textContent = instructions.classList.contains('hidden') ? 'Show': 'Hide';
+      return false;
+    };
+    
+    var scene = document.querySelector('a-scene');
+    var room = document.querySelector('[sharedspace]');
+    var table = document.querySelector('.table');
+    
+    function switchOff() {
+      Array.from(document.querySelectorAll('.lamp')).forEach(function (lamp) {
+        lamp.setAttribute('visible', 'false');
+      });
+    }
+    function switchOn() {
+      Array.from(document.querySelectorAll('.lamp')).forEach(function (lamp) {
+        lamp.setAttribute('visible', 'true');
+      });
+    }
+    function lightCandle() {
+      document.querySelector('.flame').setAttribute('visible', 'true');
+    }
+    function blowOutCandle() {
+      document.querySelector('.flame').setAttribute('visible', 'false');
+    }
+    
+    function setup() {
+      if (!scene.hasLoaded) {
+        scene.addEventListener('loaded', setup);
+        return;
+      }
+      switchOff();
+      lightCandle();
+    }
+    
+    function blow() {
+      blowOutCandle();
+      setTimeout(switchOn, 1000);
+    }
+    
+    var presets = [
+    'contact', 'egypt', 'checkerboard', 'forest',
+    'goaland', 'yavapai', 'goldmine', 'threetowers',
+    'poison', 'arches', 'tron', 'japan',
+    'dream', 'volcano', 'starry', 'osiris'
+    ];
+    var environment = document.querySelector('[environment]');
+            
+    function setEnvironment(preset) {
+    environment.setAttribute('environment', { preset: preset });
+    }
+            
+    function getNextPreset() {
+    var currentPreset = environment.getAttribute('environment').preset;
+    var index = presets.indexOf(currentPreset);
+    return presets[(index + 1) % presets.length];
+    }
+
+
+    room.addEventListener('participantmessage', function (evt) {
+      if (evt.detail.message.type === 'environment') {
+        var preset = evt.detail.message.preset;
+        setEnvironment(preset);
+      }
+    });
+
+    window.addEventListener('keydown', function (evt) {
+      if (evt.key === ' ') {
+        blow();
+        room.components.sharedspace.send('*', 'blow');
+      }
+
+      if (evt.key === 'n') {
+        var preset = getNextPreset();
+        setEnvironment(preset);
+        room.components.sharedspace.send('*', { type: 'environment', preset: preset });
+      }
+
+    });
+    
+    room.addEventListener('participantmessage', function (evt) {
+      if (evt.detail.message === 'blow') {
+        blow();
+      }
+    });
+
+    setup();
+
+
+    // Make the avatar to look at the center of the table.
+    room.addEventListener('avataradded', function onAdded(evt) {
+      
+      // Fixing should happen after the avatar fully loads.
+      // Only then, it is safe to alter the avatar’s components.
+      var avatar = evt.detail.avatar;
+      if (!avatar.hasLoaded) {
+        avatar.addEventListener('loaded', onAdded.bind(null, evt));
+        return;
+      }
+      
+      var tablePosition = table.getAttribute('position');
+      var avatarY = avatar.getAttribute('position').y;
+      avatar.object3D.lookAt(new THREE.Vector3(
+        tablePosition.x, avatarY, tablePosition.z
+      ));
+
+      // It is not enough to modify the underlaying Three object. It is
+      // neccessary to use the A-Frame API for the sharedspace component to
+      // be able of serialize the rotation correctly.
+      var radToDeg = THREE.Math.radToDeg;
+      var rotation = avatar.object3D.rotation;
+      rotation.y += Math.PI;
+      
+      avatar.setAttribute('rotation', {
+        x: radToDeg(rotation.x),
+        y: radToDeg(rotation.y),
+        z: radToDeg(rotation.z)
+      });
+      
+      var colors = [
+        '#F47486',
+        '#5789AC',
+        '#A6E76D',
+        '#FFB379',
+        '#FFEB79',
+        '#7462B7',
+        '#A64009',
+        '#218A7F'
+      ];
+      var position = parseInt(avatar.dataset.sharedspaceRoomPosition);
+      Array.from(avatar.querySelectorAll('.themable')).forEach(function (el) {
+        el.setAttribute('material', { color: colors[(position - 1) % colors.length] });
+      });
+      
+      if (evt.detail.isMe) {
+        avatar.setAttribute('name', name);
+      }
+      
+    });
+
+    // Create a new room or join one.
+    let roomName = window.location.search.substr(1);
+    if (!roomName) {
+      roomName = 'room-' + Date.now();
+      history.pushState({}, '', window.location + `?${roomName}`);
+    } else {
+      hideButton.click();
+    }
+    connect();
+
+    function connect() {
+      if (!scene.hasLoaded) {
+        scene.addEventListener('loaded', connect);
+        return;
+      }
+      room.setAttribute('sharedspace', { room: roomName, hold: false });
+    }
+
+    // Select link on click.
+    var link = document.querySelector('.link');
+    link.textContent = window.location.href;
+    link.onclick = function () {
+      var range = document.createRange();
+      range.selectNode(link);
+      var selection = document.getSelection();
+      selection.empty();
+      selection.addRange(range);
+    };
+
+  </script>
+</body>
+</html>
