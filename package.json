@@ -25,7 +25,7 @@
     "uws": "^8.14.0"
   },
   "devDependencies": {
-    "aframe": "0.5.0",
+    "aframe": "^0.8.2",
     "aframe-physics-system": "1.4.2",
     "webpack": "^1.13.0"
   },
