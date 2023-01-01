@@ -27,7 +27,7 @@
   "devDependencies": {
     "aframe": "^0.8.2",
     "aframe-physics-system": "1.4.2",
-    "webpack": "^4.38.0"
+    "webpack": "^5.75.0"
   },
   "keywords": [
     "3d",
